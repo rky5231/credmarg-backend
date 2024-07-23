@@ -14,16 +14,26 @@ public class EmailService {
     @Autowired
     private EmailLogRepository emailLogRepository;
 
-    public void sendEmail(Vendor vendor, String message) {
+    public void sendEmail(String email, String name, String upi) {
         EmailLog emailLog = new EmailLog();
-        emailLog.setRecipientEmail(vendor.getEmail());
+
+        emailLog.setRecipientEmail(email);
+        String message = String.format("Sending payments to vendor %s at upi %s", name, upi);
+
         emailLog.setMessage(message);
 
         emailLogRepository.save(emailLog);
 
         // Mock email sending
-        System.out.println("Sending email to: " + vendor.getEmail());
+        System.out.println("Sending email to: " + email);
         System.out.println("Message: " + message);
+    }
+
+    public void sendEmailToVendors(List<Vendor> vendorsList){
+
+        for (Vendor v: vendorsList){
+            sendEmail(v.getEmail(),v.getName(),v.getUpi());
+        }
     }
 
     public List<EmailLog> getAllEmailLogs() {

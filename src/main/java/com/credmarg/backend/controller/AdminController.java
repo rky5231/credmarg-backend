@@ -46,9 +46,8 @@ public class AdminController {
     }
 
     @PostMapping("/send-email")
-    public void sendEmail(@RequestBody Vendor vendor) {
-        String message = String.format("Sending payments to vendor %s at upi %s", vendor.getName(), vendor.getUpi());
-        emailService.sendEmail(vendor, message);
+    public void sendEmail(@RequestBody List<Vendor> vendor) {
+        emailService.sendEmailToVendors(vendor);
     }
 
     @GetMapping("/email-logs")
